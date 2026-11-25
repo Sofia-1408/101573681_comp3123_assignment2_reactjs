@@ -15,7 +15,14 @@ const errorHandler = require('./middleware/errorMiddleware');
 const app = express();
 
 app.use(helmet());
-app.use(cors());
+
+//restrict CORS to React frontend
+app.use(cors({
+    origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 const logDirectory = path.join(__dirname, 'logs');
 
