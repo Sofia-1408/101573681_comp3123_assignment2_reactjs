@@ -7,7 +7,6 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 const cors = require('cors');
 const morgan = require('morgan');
-
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const employeeRoutes = require('./routes/employeeRoutes');
@@ -31,6 +30,20 @@ const accessLogStream = fs.createWriteStream(
 
 app.use(morgan('dev'));
 app.use(morgan('combined', { stream: accessLogStream }));
+//uploaded employee profile pictures
+//images are at http://localhost:3000/uploads/(FILE NAME)
+app.use(
+    '/uploads',
+    express.static(path.join(__dirname, 'uploads'), {
+        setHeaders: (res) => {
+            //allow frontend to display profile pictures
+            res.setHeader(
+                'Cross-Origin-Resource-Policy',
+                'cross-origin'
+            );
+        }
+    })
+);
 
 app.use('/api/v1/user', authRoutes);
 app.use('/api/v1/emp/employees', employeeRoutes);

@@ -36,6 +36,10 @@ const employeeSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    profile_picture: {
+        type: String,
+        default: null
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -44,5 +48,4 @@ const employeeSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
-
 module.exports = mongoose.model('Employee', employeeSchema);
